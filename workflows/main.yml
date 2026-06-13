@@ -1,0 +1,43 @@
+name: Porselian Etsy Test
+
+"on":
+  workflow_dispatch:
+  push:
+    paths:
+      - "data/products.csv"
+      - "scripts/generate_etsy_listings.mjs"
+      - ".github/workflows/main.yml"
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check required files
+        run: |
+          test -f data/products.csv
+          test -f scripts/generate_etsy_listings.mjs
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Generate Etsy listings
+        run: node scripts/generate_etsy_listings.mjs
+
+      - name: Show generated files
+        run: |
+          ls -la data
+          head -n 3 data/etsy_listings.csv
+
+      - name: Upload Etsy listing outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: porselian-etsy-listings
+          path: |
+            data/etsy_listings.csv
+            data/etsy_listings.json

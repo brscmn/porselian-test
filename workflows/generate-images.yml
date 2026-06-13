@@ -1,0 +1,28 @@
+name: Porselian Images
+
+on: workflow_dispatch
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  OPENROUTER_IMAGE_MODEL: ${{ vars.OPENROUTER_IMAGE_MODEL }}
+
+jobs:
+  generate-images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - run: node scripts/generate_openrouter_images.mjs
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: porselian-generated-images
+          path: generated_images
+

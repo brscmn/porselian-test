@@ -81,3 +81,32 @@ Eksik kalabilecek gorseller:
 
 Her yeni urun icin once urun bilgisi tabloya girilir, sonra 1 adet referans gorsel eklenir.
 Bu referans gorselden 8 adet Etsy uyumlu gorsel uretim yonu olusturulur.
+
+## OpenRouter ile otomatik gorsel uretimi
+
+GitHub Secrets:
+
+```text
+OPENROUTER_API_KEY
+```
+
+GitHub Variables:
+
+```text
+OPENROUTER_IMAGE_MODEL
+```
+
+Tek urun gorselleri:
+
+```text
+product_images/PRS-004.jpg
+product_images/PRS-005.jpg
+```
+
+Workflow:
+
+```text
+Porselian Images
+```
+
+Bu workflow her tek urun gorselinden 8 adet Etsy gorseli uretmeyi dener ve `porselian-generated-images` artifact olarak verir.

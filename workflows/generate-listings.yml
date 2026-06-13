@@ -1,0 +1,32 @@
+name: Generate Etsy Listings
+
+"on":
+  workflow_dispatch:
+  push:
+    paths:
+      - "data/products.csv"
+      - "scripts/generate_etsy_listings.py"
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Generate listings
+        run: node scripts/generate_etsy_listings.mjs
+
+      - name: Upload Etsy listing outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: etsy-listings
+          path: |
+            data/etsy_listings.csv
+            data/etsy_listings.json
